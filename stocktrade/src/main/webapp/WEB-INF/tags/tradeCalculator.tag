@@ -9,7 +9,7 @@
 
 <div class="row row-cols-lg-auto g-1 align-items-center pb-3">
 	<div class="w-50">
-		<label class="pe-2">Transaction Type</label>
+		<label class="pe-2">Transaction Type<span class="text-danger">*</span></label>
 		<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 		  <input type="radio" class="btn-check btnradioBuySell" name="btnradioBuySell" id="btnradioBuy" autocomplete="off" checked>
 		  <label class="btn btn-outline-success cursor-pointer" for="btnradioBuy">BUY</label>
@@ -28,14 +28,14 @@
   <form id="quantityPlannerForm">
   		<div class="row bg-info p-2">
   			 <div class="col">
-		      <label>Stock Price/Limit Price</label>
+		      <label>Stock Price/Limit Price</label><span class="text-danger">*</span>
 		      <div class="input-group mb-3">	
 	      			<span class="input-group-text">&#8377;</span>	
 		      		<input type="text" class="form-control quantity-plan-element only-numbers" placeholder="Stock Entry Price" id="stockPriceTxt">
 		      </div>
 		    </div>
 		    <div class="col">
-		      <label>Stop Loss</label>
+		      <label>Stop Loss</label><span class="text-danger">*</span>
 		      <div class="input-group mb-3">	
 	      		<span class="input-group-text">&#8377;</span>	
 		      	<input type="text" class="form-control quantity-plan-element only-numbers" placeholder="Stop Loss Price" id="stopLossTxt">
