@@ -27,6 +27,7 @@ $( document ).ready(function() {
 			if(undefined != stockPrice && undefined != stopLoss && undefined != perTradeRisk)
 			{
 				let lossPerUnit = parseFloat(stockPrice) - parseFloat(stopLoss);
+				lossPerUnit = Math.abs(lossPerUnit);
 				if(!isNaN(lossPerUnit))
 	   			{
 	   				$("#lossPerUnitsGroup").removeClass("d-none");
@@ -35,34 +36,22 @@ $( document ).ready(function() {
 	   			let quantity = parseFloat(perTradeRisk)/lossPerUnit;
 	   			if(!isNaN(quantity))
 	   			{
-	   				$("#quantityUnitsLbl").removeClass("d-none");
+	   				$("#quantityUnitsGroup").removeClass("d-none");
 	   				$("#quantityUnitsLbl").text(Math.round(quantity));
 	   			}
 	   			
-	   			
-	   			let buyPrice = parseFloat(stockPrice);
-	   			let stopLossPrice = parseFloat(stopLoss);
-	   			let targetPrice = buyPrice + (lossPerUnit * 2);
-	   			let investmentAmount = buyPrice * Math.round(quantity);
-	   			let possibleLoss = investmentAmount - (stopLossPrice * Math.round(quantity));
-	   			let totalProfit =  targetPrice * Math.round(quantity);
-	   			let possibleProfit = totalProfit - investmentAmount;
-	   			let roi = ((possibleProfit/investmentAmount)*100).toFixed(2);
-	   			let ruppeSymbol = "<span class='fw-bold'>&#8377;</span>";
-	   			if(!isNaN(targetPrice))
+	   			if($('#btnradioBuy').is(':checked'))
+	   			{ 
+	   				console.log("BUY Transaction");
+	   				buyTransactionHandler(stockPrice,stopLoss,lossPerUnit,quantity);
+	   			}
+	   			else
 	   			{
-	   				$("#targetGroup").removeClass("d-none");
-	   				$("#targetLbl").text(Math.round(targetPrice));
+	   				console.log("SHORT SELL Transaction");
+	   				shortSellTransactionHandler(stockPrice,stopLoss,lossPerUnit,quantity);
 	   			}
 	   			
-	   			if(!isNaN(investmentAmount) && !isNaN(possibleLoss) && !isNaN(totalProfit) && !isNaN(possibleProfit) && !isNaN(roi))
-	   			{
-	   				$("#investedAmountCell").html(ruppeSymbol+investmentAmount);
-	   				$("#possibleLossCell").html(ruppeSymbol+possibleLoss);
-	   				$("#totalProfitCell").html(ruppeSymbol+totalProfit);
-	   				$("#possibleProfitCell").html(ruppeSymbol+possibleProfit);
-	   				$("#roiCell").text(roi+"%");
-	   			}
+	   			
 	   			
 	   			
 			}
@@ -72,10 +61,80 @@ $( document ).ready(function() {
 		
 		this.value=this.value.replace(/[^\d]/,'');
 		
-     });	
-  	
-  
-  
-  
-  
+     });
+     
+     $(".btnradioBuySell").on("change", function(e) {
+     		$(".quantity-plan-element").text("");
+     		$(".quantity-plan-element").val("");
+     		$(".profit-loss-cell").text("");
+     		$('#tradeEntries').text("");
+      });
 });
+
+function buyTransactionHandler(stockPrice,stopLoss,lossPerUnit,quantity)
+{
+	
+		let buyPrice = parseFloat(stockPrice);
+		let stopLossPrice = parseFloat(stopLoss);
+		let targetPrice = buyPrice + (lossPerUnit * 2);
+		let investmentAmount = buyPrice * Math.round(quantity);
+		let possibleLoss = lossPerUnit * Math.round(quantity);
+		let totalProfit =  targetPrice * Math.round(quantity);
+		let possibleProfit = totalProfit - investmentAmount;
+		let roi = ((possibleProfit/investmentAmount)*100).toFixed(2);
+		let ruppeSymbol = "<span class='fw-bold'>&#8377;</span>";
+		if(!isNaN(targetPrice))
+		{
+			$("#targetGroup").removeClass("d-none");
+			$("#targetLbl").text(Math.round(targetPrice));
+		}
+		
+		if(!isNaN(investmentAmount) && !isNaN(possibleLoss) && !isNaN(totalProfit) && !isNaN(possibleProfit) && !isNaN(roi))
+		{
+			$("#investedAmountCell").html(ruppeSymbol+investmentAmount);
+			$("#possibleLossCell").html(ruppeSymbol+possibleLoss);
+			$("#totalProfitCell").html(ruppeSymbol+totalProfit);
+			$("#possibleProfitCell").html(ruppeSymbol+possibleProfit);
+			$("#roiCell").text(roi+"%");
+			
+			let entries = "1. BUY "+Math.round(quantity)+" units at price "+ruppeSymbol+buyPrice + "<br>"+
+					  "2. Put STOP LOSS for "+Math.round(quantity)+" units at price "+stopLossPrice + "<br>"+
+					  "3. SELL "+Math.round(quantity)+" units at price "+ruppeSymbol+targetPrice;
+					  
+			$('#tradeEntries').html(entries);		
+		}	  
+}
+
+function shortSellTransactionHandler(stockPrice,stopLoss,lossPerUnit,quantity)
+{
+		let shortSellPrice = parseFloat(stockPrice);
+		let stopLossPrice = parseFloat(stopLoss);
+		let targeBuyPrice = shortSellPrice - (lossPerUnit * 2);
+		let investmentAmount = targeBuyPrice * Math.round(quantity);
+		let possibleLoss =  parseFloat(lossPerUnit) * Math.round(quantity);
+		let totalProfit =  shortSellPrice * Math.round(quantity);
+		let possibleProfit = totalProfit - investmentAmount;
+		let roi = ((possibleProfit/investmentAmount)*100).toFixed(2);
+		let ruppeSymbol = "<span class='fw-bold'>&#8377;</span>";
+		
+		if(!isNaN(targeBuyPrice))
+		{
+			$("#targetGroup").removeClass("d-none");
+			$("#targetLbl").text(Math.round(targeBuyPrice));
+		}
+		
+		if(!isNaN(investmentAmount) && !isNaN(possibleLoss) && !isNaN(totalProfit) && !isNaN(possibleProfit) && !isNaN(roi))
+		{
+			$("#investedAmountCell").html(ruppeSymbol+investmentAmount);
+			$("#possibleLossCell").html(ruppeSymbol+possibleLoss);
+			$("#totalProfitCell").html(ruppeSymbol+totalProfit);
+			$("#possibleProfitCell").html(ruppeSymbol+possibleProfit);
+			$("#roiCell").text(roi+"%");
+			
+			let entries = "1. SHORT SELL "+Math.round(quantity)+" units at price "+ruppeSymbol+shortSellPrice + "<br>"+
+					  "2. Put STOP LOSS for "+Math.round(quantity)+" units at price "+stopLossPrice + "<br>"+
+					  "3. BUY "+Math.round(quantity)+" units at price "+ruppeSymbol+targeBuyPrice;
+					  
+			$('#tradeEntries').html(entries);	
+		}
+}
