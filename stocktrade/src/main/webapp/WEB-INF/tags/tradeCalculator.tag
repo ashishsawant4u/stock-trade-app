@@ -41,21 +41,21 @@
 		      	<input type="text" class="form-control quantity-plan-element only-numbers" placeholder="Stop Loss Price" id="stopLossTxt">
 		      </div>
 		    </div>
-		    <div class="col bg-warning p-2">
+		    <div class="col bg-light p-2">
 		      <label class="fw-bold">Loss Per Unit</label>
 		      <div class="input-group mb-3 d-none" id="lossPerUnitsGroup">	
 	      		<span class="input-group-text">&#8377;</span>	
 		        <span id="lossPerUnitsLbl" class="fw-bold form-control quantity-plan-element"></span>
 		      </div>
 		    </div>
-		    <div class="col bg-warning p-2">
+		    <div class="col bg-light p-2">
 		      <label class="fw-bold">Target/Exit Price</label>
 		      <div class="input-group mb-3 d-none" id="targetGroup">	
 	      		<span class="input-group-text">&#8377;</span>		
 		        <span id="targetLbl" class="fw-bold form-control quantity-plan-element"></span>
 		      </div>
 		    </div>
-		    <div class="col bg-warning p-2">
+		    <div class="col bg-light p-2">
 		      <label class="fw-bold">Quantity can be purchased</label>	
 		      <div class="input-group mb-3 d-none" id="quantityUnitsGroup">
 		     	<span class="input-group-text">

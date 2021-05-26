@@ -24,7 +24,7 @@
 	      <label>Nos. of Trade</label>	
 	      <input type="text" class="form-control trade-plan-element" placeholder="Back to back Nos. of Trade Can go wrong" id="nosOfTradeTxt">
 	    </div>
-	    <div class="col bg-warning p-2">
+	    <div class="col bg-light p-2">
 	      <label class="fw-bold">Risk Per Trade</label>	
 	      <div class="input-group mb-3 d-none" id="perTradeRiskGroup">	
 	      	<span class="input-group-text">&#8377;</span>
